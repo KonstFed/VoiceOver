@@ -15,7 +15,7 @@ class SvcWrapper:
         )
         self.target_sample = self.svc.target_sample
 
-    def get_speakers(self) -> list[str]:
+    def get_speakers(self) -> dict[str, int]:
         return self.svc.spk2id
 
     def forward(self, audio: np.ndarray, speaker: int|str=0) -> np.ndarray:
