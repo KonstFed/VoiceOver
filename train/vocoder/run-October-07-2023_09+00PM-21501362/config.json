@@ -1,0 +1,204 @@
+{
+    "output_path": "C:\\Users\\super\\PycharmProjects\\TTS\\train\\vocoder",
+    "logger_uri": null,
+    "run_name": "run",
+    "project_name": null,
+    "run_description": "\ud83d\udc38Coqui trainer run.",
+    "print_step": 25,
+    "plot_step": 100,
+    "model_param_stats": false,
+    "wandb_entity": null,
+    "dashboard_logger": "tensorboard",
+    "save_on_interrupt": true,
+    "log_model_step": null,
+    "save_step": 10000,
+    "save_n_checkpoints": 5,
+    "save_checkpoints": true,
+    "save_all_best": false,
+    "save_best_after": 10000,
+    "target_loss": "loss_0",
+    "print_eval": false,
+    "test_delay_epochs": 5,
+    "run_eval": true,
+    "run_eval_steps": null,
+    "distributed_backend": "nccl",
+    "distributed_url": "tcp://localhost:54321",
+    "mixed_precision": false,
+    "precision": "fp16",
+    "epochs": 1000,
+    "batch_size": 32,
+    "eval_batch_size": 16,
+    "grad_clip": [
+        5,
+        5
+    ],
+    "scheduler_after_epoch": true,
+    "lr": 0.001,
+    "optimizer": "AdamW",
+    "optimizer_params": {
+        "betas": [
+            0.8,
+            0.99
+        ],
+        "weight_decay": 0.0
+    },
+    "lr_scheduler": null,
+    "lr_scheduler_params": {},
+    "use_grad_scaler": false,
+    "allow_tf32": false,
+    "cudnn_enable": true,
+    "cudnn_deterministic": false,
+    "cudnn_benchmark": false,
+    "training_seed": 54321,
+    "model": "multiband_melgan",
+    "num_loader_workers": 4,
+    "num_eval_loader_workers": 4,
+    "use_noise_augment": true,
+    "audio": {
+        "fft_size": 1024,
+        "win_length": 1024,
+        "hop_length": 256,
+        "frame_shift_ms": null,
+        "frame_length_ms": null,
+        "stft_pad_mode": "reflect",
+        "sample_rate": 22050,
+        "resample": false,
+        "preemphasis": 0.0,
+        "ref_level_db": 20,
+        "do_sound_norm": false,
+        "log_func": "np.log10",
+        "do_trim_silence": true,
+        "trim_db": 45,
+        "do_rms_norm": false,
+        "db_level": null,
+        "power": 1.5,
+        "griffin_lim_iters": 60,
+        "num_mels": 80,
+        "mel_fmin": 0.0,
+        "mel_fmax": null,
+        "spec_gain": 20,
+        "do_amp_to_db_linear": true,
+        "do_amp_to_db_mel": true,
+        "pitch_fmax": 640.0,
+        "pitch_fmin": 1.0,
+        "signal_norm": true,
+        "min_level_db": -100,
+        "symmetric_norm": true,
+        "max_norm": 4.0,
+        "clip_norm": true,
+        "stats_path": null
+    },
+    "eval_split_size": 10,
+    "data_path": "C:\\Users\\super\\PycharmProjects\\TTS\\train\\vocoder\\../datasets/LJSpeech-1.1/wavs/",
+    "feature_path": null,
+    "seq_len": 8192,
+    "pad_short": 2000,
+    "conv_pad": 0,
+    "use_cache": true,
+    "wd": 0.0,
+    "use_stft_loss": true,
+    "use_subband_stft_loss": true,
+    "use_mse_gan_loss": true,
+    "use_hinge_gan_loss": false,
+    "use_feat_match_loss": false,
+    "use_l1_spec_loss": false,
+    "stft_loss_weight": 0.5,
+    "subband_stft_loss_weight": 0,
+    "mse_G_loss_weight": 2.5,
+    "hinge_G_loss_weight": 0,
+    "feat_match_loss_weight": 108,
+    "l1_spec_loss_weight": 0,
+    "stft_loss_params": {
+        "n_ffts": [
+            1024,
+            2048,
+            512
+        ],
+        "hop_lengths": [
+            120,
+            240,
+            50
+        ],
+        "win_lengths": [
+            600,
+            1200,
+            240
+        ]
+    },
+    "l1_spec_loss_params": {
+        "use_mel": true,
+        "sample_rate": 22050,
+        "n_fft": 1024,
+        "hop_length": 256,
+        "win_length": 1024,
+        "n_mels": 80,
+        "mel_fmin": 0.0,
+        "mel_fmax": null
+    },
+    "lr_gen": 0.0001,
+    "lr_disc": 0.0001,
+    "lr_scheduler_gen": "MultiStepLR",
+    "lr_scheduler_gen_params": {
+        "gamma": 0.5,
+        "milestones": [
+            100000,
+            200000,
+            300000,
+            400000,
+            500000,
+            600000
+        ]
+    },
+    "lr_scheduler_disc": "MultiStepLR",
+    "lr_scheduler_disc_params": {
+        "gamma": 0.5,
+        "milestones": [
+            100000,
+            200000,
+            300000,
+            400000,
+            500000,
+            600000
+        ]
+    },
+    "use_pqmf": true,
+    "diff_samples_for_G_and_D": false,
+    "discriminator_model": "melgan_multiscale_discriminator",
+    "discriminator_model_params": {
+        "base_channels": 16,
+        "max_channels": 512,
+        "downsample_factors": [
+            4,
+            4,
+            4
+        ]
+    },
+    "generator_model": "multiband_melgan_generator",
+    "generator_model_params": {
+        "upsample_factors": [
+            8,
+            4,
+            2
+        ],
+        "num_res_blocks": 4
+    },
+    "steps_to_start_discriminator": 200000,
+    "subband_stft_loss_params": {
+        "n_ffts": [
+            384,
+            683,
+            171
+        ],
+        "hop_lengths": [
+            30,
+            60,
+            10
+        ],
+        "win_lengths": [
+            150,
+            300,
+            60
+        ]
+    },
+    "github_branch": "* dev"
+}
