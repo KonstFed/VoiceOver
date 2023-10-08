@@ -4,7 +4,7 @@ test_samples
 voices
 *.json
 __pycache__
-
+dataset_raw
 
 
 # Byte-compiled / optimized / DLL files
