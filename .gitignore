@@ -1,0 +1,6 @@
+.venv
+.python-version
+test_samples
+voices
+*.json
+__pycache__
