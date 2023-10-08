@@ -30,7 +30,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 # SVC = SvcWrapper("voices/Nikita/model/G_10000.pth", "voices/Nikita/config/config.json")
-SVC = SvcWrapper("voices/batch/G_107.pth", "voices/batch/config.json")
+SVC = SvcWrapper("voices/batch/G_10000.pth", "voices/batch/config.json")
 
 
 spk2id = SVC.get_speakers()
@@ -100,8 +100,8 @@ async def _load_voice(file_id) -> np.ndarray:
 
 def _to_inputfile(sound: np.ndarray) -> BufferedInputFile:
     audio_buffer = BytesIO()
-    soundfile.write(audio_buffer, sound, samplerate=SVC.target_sample, format="ogg")
-    return BufferedInputFile(audio_buffer.getvalue(), "output.ogg")
+    soundfile.write(audio_buffer, sound, samplerate=SVC.target_sample, format="wav")
+    return BufferedInputFile(audio_buffer.getvalue(), "output")
 
 
 @dp.message(F.voice)
