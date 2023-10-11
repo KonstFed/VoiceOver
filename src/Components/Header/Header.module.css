@@ -1,0 +1,28 @@
+
+.header {
+    height: 10vh;
+    width: 100%;
+    font-size: 16px;
+}
+
+.menu {
+    margin-left: 5%;
+    height: 100%;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+
+.menu_item {
+    font-size: 1.5em;
+    font-weight: 500;
+    text-decoration: none;
+    color: #555555;
+    transition: .2s linear;
+}
+
+.menu_item:hover {
+    color: #1c1c1c;
+}
