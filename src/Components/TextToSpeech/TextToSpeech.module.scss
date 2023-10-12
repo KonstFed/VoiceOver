@@ -1,0 +1,141 @@
+.block {
+    height: 90vh;
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.inner_block {
+    background-color: #b8b8b8;
+    width: 100%;
+    height: 85%;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left_part {
+    width: 50%;
+    height: 90%;
+    padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 2em;
+    color: #303030;
+    font-weight: 600;
+}
+
+.textarea {
+    resize: none;
+    width: 80%;
+    outline: none;
+    margin-top: 2rem;
+    height: 25vh;
+    border-radius: 20px;
+    background-color: #e4e4e4;
+    padding: 2rem;
+    border: none;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.25);
+    font-size: 1.2em;
+    color: #5E5E5E;
+    transition: .2s linear;
+}
+
+.textarea:focus {
+    border-bottom: 5px solid #FF00E9;
+}
+
+.left_part_down_text {
+    font-size: 1.6rem;
+    color: #5E5E5E;
+    line-height: 1.5em;
+}
+
+.left_part_down_text span {
+    color: #303030;
+    font-weight: 500;
+}
+
+.right_part {
+    height: 90%;
+    width: 40%;
+    padding-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cards {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.card {
+    width: 10rem;
+    background-color: #e4e4e4;
+    height: 10rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.25);
+    transition: .3s linear;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.50), 0px 0px 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+.card_image {
+    width: 100%;
+    height: 67%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.card_name {
+    height: 33%;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.right_part_down {
+    text-align: right;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.button {
+    background-color: #e4e4e4;
+    border: none;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    cursor: pointer;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s linear;
+}
+
+.action {
+    background-color: #FF00E9;
+}
+
+.button:hover {
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.50), 0px 0px 10px 5px rgba(0, 0, 0, 0.25);
+}
