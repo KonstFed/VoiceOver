@@ -1,1 +1,1 @@
-svc train -c train_params/configs/"$1".json -m results/"$1"
+svc train -c train_params/configs/"$1".json -m voices/"$1"

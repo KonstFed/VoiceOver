@@ -5,7 +5,7 @@ for source_folder in $(ls "$1")
 do
 
     folder_name=$(basename $source_folder)
-    destination_folder="${source_folder}/${folder_name}"
+    destination_folder="$1/${source_folder}/${folder_name}"
 
     # Create the destination folder if it does not exist
     if [ ! -d "$destination_folder" ]; then
