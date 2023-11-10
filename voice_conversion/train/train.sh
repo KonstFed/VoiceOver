@@ -1,0 +1,1 @@
+svc train -c train_params/configs/"$1".json -m results/"$1"
