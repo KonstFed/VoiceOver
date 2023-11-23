@@ -7,9 +7,9 @@ def build_settings():
     settings_builder.add(InlineKeyboardButton(text="Change voice speaker", callback_data="settings_voice"))
     return settings_builder.as_markup()
 
-def build_choose_voice(voices_dict: dict):
+def build_choose_voice(voices: list[str]):
     voice_choose_kb_builder = InlineKeyboardBuilder()
-    for voice_name, id in voices_dict.items():
+    for id, voice_name in enumerate(voices):
         voice_choose_kb_builder.add(InlineKeyboardButton(text=voice_name, callback_data=f"voice_choose_{id}"))
     voice_choose_kb_builder.adjust(2, repeat=True)
     return voice_choose_kb_builder.as_markup()

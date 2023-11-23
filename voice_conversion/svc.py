@@ -3,7 +3,6 @@ import torch
 
 from so_vits_svc_fork.inference.core import Svc
 
-
 class SvcWrapper:
     def __init__(self, g_path: str, config_path: str, device: str = "cpu") -> None:
         self.device = device

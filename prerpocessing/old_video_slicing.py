@@ -52,4 +52,3 @@ for dir in dirs:
         video_to_audio(dir_to, dir_from, video_file, output_ext="wav")
         slice_audio(path=dir_to, video_file=filename+'.wav', min_interval=min_intervals[dir])
         print('Finished with ' + video_file)
-

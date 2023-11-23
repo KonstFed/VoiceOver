@@ -1,6 +1,11 @@
+.gitignore
+
 .venv/*
+voice_venv
 .python-version
 test_samples
+audio
+video
 voices
 *.json
 __pycache__
