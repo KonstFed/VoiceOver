@@ -18,7 +18,7 @@ def slice_audio(path, video_file, min_interval=300, min_length=10000):
     slicer = Slicer(sr=sr, min_length=min_length, min_interval=min_interval)
     print(f'Slicing {video_file}...')
     chunks = slicer.slice(audio)
-    print('Done, saving...')
+    print(f'Done, number of chunks {len(chunks)}, saving...')
 
     path = os.path.join(path, "clips")
     if not os.path.exists(path):
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Adjust min_intervals according to the temp of the speaker, 
     # minimize the value if there is practically no silence, 
     # maximize the value if there is a lot of silence.
-    min_intervals = dict(zip(dirs, [300, 300, 200, 250, 10]))
+    min_intervals = dict(zip(dirs, [10]))
 
     for dir in dirs:
         if dir in do_not_process or not os.listdir(f'../video/{dir}'):
