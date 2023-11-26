@@ -30,7 +30,7 @@ class RedactState(State):
 
 class User:
     def __init__(
-        self, telegram_id: int, username: str, state: State, voice: int = 0, super_tts = 0, super_tts_lang: str = 'en'
+        self, telegram_id: int, username: str, state: State, voice: int = 0, super_tts = 0, super_tts_lang: str = 'ru'
     ) -> None:
         self.telegram_id = telegram_id
         self.username = username

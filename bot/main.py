@@ -87,7 +87,7 @@ async def process_start_command(message: types.Message):
 
     await bot.send_message(
         user.telegram_id,
-        f"Welcome to VoiceOver bot. Your voice choice is {models_names[user.voice]}. If you want to change it press /settings",
+        f"Welcome to VoiceOver bot. Your voice choice is {models_names[user.voice]}. If you want to change it press /settings\nTo use Voice conversion just use voice message. If you want to use TTS use /stts. Example /stts Hello world",
     )
 
 
@@ -249,7 +249,8 @@ async def handle_file(msg: types.Message):
 async def handle_tts(message: types.Message):
     user = get_user(message.from_user.id)
     arguments = message.text.replace("/tts", "")
-    wav = np.array(tts_male(arguments, speed=0.001), dtype=np.float32)
+    wav, _rate = tts_male(arguments, speed=0.001)
+    wav = np.array(wav, dtype=np.float32)
     task = svc_queue.put((user, wav))
     await task
     
@@ -257,8 +258,8 @@ async def handle_tts(message: types.Message):
 async def handle_super_tts(message: types.Message):
     user = get_user(message.from_user.id)
     arguments = message.text.replace("/stts", "")
-    wav = tts_clone(arguments, config["super_tts"][user.super_tts]["file_path"], language=user.super_tts_lang)
-    await bot.send_voice(user.telegram_id, _to_inputfile(wav, target_samples[user.voice]))
+    wav, rate = tts_clone(arguments, config["super_tts"][user.super_tts]["file_path"], language=user.super_tts_lang)
+    await bot.send_voice(user.telegram_id, _to_inputfile(wav, rate))
 
 
 async def start_bot() -> None:
