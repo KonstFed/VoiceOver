@@ -2,7 +2,7 @@ import langid
 
 from pathlib import Path
 from typing import Union
-from utils import tts
+from .utils import tts
 
 
 def tts_clone(text: str,

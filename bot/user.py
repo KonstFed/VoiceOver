@@ -30,23 +30,27 @@ class RedactState(State):
 
 class User:
     def __init__(
-        self, telegram_id: int, username: str, state: State, voice: int = 0
+        self, telegram_id: int, username: str, state: State, voice: int = 0, super_tts = 0, super_tts_lang: str = 'en'
     ) -> None:
         self.telegram_id = telegram_id
         self.username = username
         self.state = state
         self.voice = voice
+        self.super_tts = super_tts
+        self.super_tts_lang = super_tts_lang
 
     def update(self, user):
         self.telegram_id = user.telegram_id
         self.username = user.username
         self.state = user.state
         self.voice = user.voice
+        self.super_tts = user.super_tts
 
     def tojson(self):
         return {
             "telegram_id": self.telegram_id,
             "username": self.username,
             "voice": self.voice,
+            "super_tts": self.super_tts,
             "state": self.state.tojson(),
         }

@@ -18,10 +18,13 @@ import soundfile
 import numpy as np
 
 
+from tts.en import tts_male, tts_female
+from tts.multilingual import tts_clone
+
 from voice_conversion.svc import SvcWrapper
 from db import get_user, add_user, update_user
 from user import User, RedactState, WorkingState
-from keyboards.settings import build_settings, build_choose_voice
+from keyboards.settings import *
 
 
 class AudioFileFilter(BaseFilter):
@@ -43,6 +46,8 @@ TOKEN = config["token"]
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
+
+STTS_LANGS = ['en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'ru', 'nl', 'cs', 'ar', 'zh', 'ja', 'hu', 'ko']
 svc_queue = asyncio.Queue(maxsize=6)
 
 
@@ -50,6 +55,8 @@ models = []
 models_names = []
 target_samples = []
 
+super_tts_models = []
+super_tts_names = []
 
 async def request_queue_consumer(queue, bot):
     global models
@@ -95,7 +102,29 @@ async def send_settings(message: types.Message):
     user.state = RedactState("remove_settings_state", msg.message_id)
     update_user(user)
 
+@dp.callback_query(F.data.regexp("super_tts_set_voice_[\d]+"))
+async def handle_super_tts_voice_choose(callback: types.CallbackQuery):
+    user = get_user(callback.from_user.id)
+    stts = int(callback.data.split("_")[-1])
+    user.super_tts = stts
+    update_user(user)
+    await callback.answer()
+    await bot.delete_message(user.telegram_id, user.state.msg_id)
+    await bot.send_message(user.telegram_id, "Your changes are saved")
+    # await bot.send_message(user.telegram_id, f"You current voice is changed to:\n`{models_names[voice]}`\nIf you want to change it use /settings")
 
+@dp.callback_query(F.data.regexp("super_tts_set_lang_[\d]+"))
+async def handle_super_tts_voice_choose(callback: types.CallbackQuery):
+    user = get_user(callback.from_user.id)
+    stts_lang_idx = int(callback.data.split("_")[-1])
+    user.super_tts_lang = STTS_LANGS[stts_lang_idx]
+    update_user(user)
+    await callback.answer()
+    await bot.delete_message(user.telegram_id, user.state.msg_id)
+    await bot.send_message(user.telegram_id, "Your changes are saved")
+    # await bot.send_message(user.telegram_id, f"You current voice is changed to:\n`{models_names[voice]}`\nIf you want to change it use /settings")
+
+    
 @dp.callback_query(F.data.regexp("voice_choose_[\d]+"))
 async def handle_voice_choose(callback: types.CallbackQuery):
     user = get_user(callback.from_user.id)
@@ -106,8 +135,51 @@ async def handle_voice_choose(callback: types.CallbackQuery):
     await bot.delete_message(user.telegram_id, user.state.msg_id)
     await bot.send_message(user.telegram_id, f"You current voice is changed to:\n`{models_names[voice]}`\nIf you want to change it use /settings")
     # await send_settings(cal)
+    
+@dp.callback_query(F.data == "tts_voice_settings")
+async def handle_stts_settings(callback: types.CallbackQuery):
+    user = get_user(callback.from_user.id)
+    await bot.delete_message(user.telegram_id, user.state.msg_id)
+    
+    _possible_voices = list(map(lambda x: x['name'], config["super_tts"]))
+    msg = await bot.send_message(
+        user.telegram_id,
+        "Choose super TTS voice",
+        reply_markup=build_settings_super_tts_voice(_possible_voices)
+    )
+    user.state = RedactState("remove_settings_state", msg.message_id)
+    update_user(user)
+    await callback.answer()
+    
 
-
+@dp.callback_query(F.data == "tts_lang_settings")
+async def handle_stts_settings(callback: types.CallbackQuery):
+    user = get_user(callback.from_user.id)
+    await bot.delete_message(user.telegram_id, user.state.msg_id)
+    msg = await bot.send_message(
+        user.telegram_id,
+        "Choose language of Super TTS voice",
+        reply_markup=build_choose_lang(STTS_LANGS)
+    )
+    user.state = RedactState("remove_settings_state", msg.message_id)
+    update_user(user)
+    await callback.answer()    
+    
+@dp.callback_query(F.data == "settings_tts")
+async def handle_click_tts_settings(callback: types.CallbackQuery):
+    user = get_user(callback.from_user.id)
+    if user.state != "remove_settings_state":
+        return
+    await bot.delete_message(callback.from_user.id, user.state.msg_id)
+    msg = await bot.send_message(
+        user.telegram_id,
+        "Super TTS settings",
+        reply_markup=build_settings_super_tts()
+    )
+    user.state = RedactState("remove_settings_state", msg.message_id)
+    update_user(user)
+    await callback.answer()
+    
 @dp.callback_query(F.data == "settings_voice")
 async def handle_change_voice_setting(callback: types.CallbackQuery):
     user = get_user(callback.from_user.id)
@@ -172,8 +244,24 @@ async def handle_file(msg: types.Message):
     await bot.send_message(user.telegram_id, f"You are {q_size} in queue...")
     await task
 
-async def start_bot() -> None:
+    
+@dp.message(Command("tts"))
+async def handle_tts(message: types.Message):
+    user = get_user(message.from_user.id)
+    arguments = message.text.replace("/tts", "")
+    wav = np.array(tts_male(arguments, speed=0.001), dtype=np.float32)
+    task = svc_queue.put((user, wav))
+    await task
+    
+@dp.message(Command("stts"))
+async def handle_super_tts(message: types.Message):
+    user = get_user(message.from_user.id)
+    arguments = message.text.replace("/stts", "")
+    wav = tts_clone(arguments, config["super_tts"][user.super_tts]["file_path"], language=user.super_tts_lang)
+    await bot.send_voice(user.telegram_id, _to_inputfile(wav, target_samples[user.voice]))
 
+
+async def start_bot() -> None:
     svc_task = asyncio.create_task(request_queue_consumer(svc_queue, bot))
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     for model_cfg in config["models"]:
@@ -181,6 +269,7 @@ async def start_bot() -> None:
         target_samples.append(model.target_sample)
         models.append(model)
         models_names.append(model_cfg["name"])
+
     await dp.start_polling(bot)
     await svc_task
 
