@@ -30,4 +30,4 @@ def tts_clone(text: str,
         raise ValueError(f"Language {language} is not supported. Supported languages are ['en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'ru', 'nl', 'cs', 'ar', 'zh', 'hu', 'ko', 'ja']")
 
     return tts(text, "tts_models/multilingual/multi-dataset/xtts_v2",
-               speaker=None, speaker_wav=speaker_wav, language=language, device=device, out_path=out_path)
+               speaker=None, speaker_wav=speaker_wav, language=language, device=device, out_path=out_path, speed=0.2)

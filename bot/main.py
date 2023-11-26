@@ -47,7 +47,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 
-STTS_LANGS = ['en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'ru', 'nl', 'cs', 'ar', 'zh', 'ja', 'hu', 'ko']
+STTS_LANGS = ['ru', 'en', 'es', 'fr', 'de', 'it', 'pt', 'pl', 'tr', 'nl', 'cs', 'ar', 'zh', 'ja', 'hu', 'ko']
 svc_queue = asyncio.Queue(maxsize=6)
 
 
